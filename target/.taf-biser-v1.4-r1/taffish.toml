@@ -1,0 +1,39 @@
+[package]
+name = "biser"
+kind = "tool"
+version = "1.4"
+release = 1
+license = "Apache-2.0"
+main = "src/main.taf"
+
+[meta]
+domain = "bio"
+categories = ["genomics", "segmental-duplication", "comparative-genomics"]
+keywords = ["biser", "segmental-duplication", "genome-assembly", "bedpe", "samtools", "codon"]
+description = "Tool for detecting and decomposing segmental duplications in one or more genome assemblies."
+
+[repository]
+url = "https://github.com/taffish/biser"
+
+[command]
+name = "taf-biser"
+
+[runtime]
+pipe = true
+command_mode = true
+
+[container]
+image = "ghcr.io/taffish/biser:1.4-r1"
+dockerfile = "docker/Dockerfile"
+build_platforms = "linux/amd64"
+
+[upstream]
+type = "github"
+repo = "0xTCG/biser"
+watch = "tags"
+
+[smoke]
+backend = "docker"
+timeout = 60
+exist = ["biser", "samtools", "python"]
+test = ["biser --version 2>&1 | grep -F 'biser v1.4' >/dev/null", "biser --help 2>&1 | grep -F 'Segmental duplication detection tool' >/dev/null", "samtools --version 2>&1 | grep -F 'samtools 1.23.1' >/dev/null", "samtools --version 2>&1 | grep -F 'Using htslib 1.23.1' >/dev/null", "python -c 'import biser, ncls, numpy, tqdm, multiprocess'", "printf '>chr1\\nACGTACGT\\n' >/tmp/taf-biser.fa && samtools faidx /tmp/taf-biser.fa && test -s /tmp/taf-biser.fa.fai"]
