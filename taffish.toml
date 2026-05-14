@@ -30,6 +30,10 @@ build_platforms = "linux/amd64"
 [upstream]
 type = "github"
 repo = "0xTCG/biser"
+license = "MIT"
+citation = "Iseric et al. 2022"
+doi = "10.1186/s13015-022-00210-2"
+pmid = "35303886"
 watch = "tags"
 
 [smoke]
