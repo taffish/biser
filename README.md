@@ -14,6 +14,12 @@ support is not declared because upstream BISER 1.4 is distributed on PyPI as an
 x86_64 wheel, and rebuilding the Codon component for arm64 requires additional
 upstream-source patching and validation.
 
+For Docker and Podman, `src/main.taf` declares `--platform linux/amd64`, so
+Apple Silicon or other arm64 hosts can use normal Docker/Podman amd64 emulation
+without setting a global platform variable for every run. This is emulation,
+not native arm64 support; Apptainer compatibility depends on the host and site
+configuration.
+
 ## Installation
 
 Install from the public TAFFISH Hub index:
@@ -26,7 +32,7 @@ taf install biser
 Install the exact release:
 
 ```sh
-taf install biser 1.4-r1
+taf install biser 1.4-r2
 ```
 
 For local testing before the app is published to the public index:
@@ -105,9 +111,9 @@ taf-biser biser --version
 ```text
 name: biser
 command: taf-biser
-version: 1.4-r1
+version: 1.4-r2
 kind: tool
-image: ghcr.io/taffish/biser:1.4-r1
+image: ghcr.io/taffish/biser:1.4-r2
 platforms: linux/amd64
 ```
 
@@ -178,9 +184,9 @@ taf compile -- --help
 taf compile -- biser --version
 taf publish --release --dry-run
 docker build --check -f docker/Dockerfile .
-docker build --platform linux/amd64 -t ghcr.io/taffish/biser:1.4-r1 -f docker/Dockerfile .
-docker run --rm --platform linux/amd64 ghcr.io/taffish/biser:1.4-r1 biser --version
-docker run --rm --platform linux/amd64 ghcr.io/taffish/biser:1.4-r1 samtools --version
+docker build --platform linux/amd64 -t ghcr.io/taffish/biser:1.4-r2 -f docker/Dockerfile .
+docker run --rm --platform linux/amd64 ghcr.io/taffish/biser:1.4-r2 biser --version
+docker run --rm --platform linux/amd64 ghcr.io/taffish/biser:1.4-r2 samtools --version
 ```
 
 The repository wrapper files are licensed under Apache-2.0. BISER, Samtools,
